@@ -118,7 +118,33 @@ public class _WebsiteHandler {
 		}else{
 			return result;
 		}
+		
+		int cutIndex = result.length();
+		int beginTagCount = 0;
+		int endTagCount = 0;
+		
+		for (int i = 2; i < result.length() - tag.length() - 3; i++){
+			
+			if (result.substring(i, i + tag.length() + 1).equals("<" + tag) && 
+					(result.substring(i + tag.length() + 1, i + tag.length() + 2).equals(" ") || result.substring(i + tag.length() + 1, i + tag.length() + 2).equals(">"))){
+				beginTagCount++;
+				continue;
+			}	
+			
+			if (result.substring(i, i + tag.length() + 3).equals("</" + tag + ">")){
+				endTagCount ++;
 				
+				if (endTagCount > beginTagCount){
+					cutIndex = i + tag.length() + 3;
+					break;
+				}
+				
+				continue;
+			}
+					
+		}
+		
+		/*
 		int startIndex = 0;
 		int endIndex = result.length();
 		int cutIndex = 0;
@@ -151,8 +177,10 @@ public class _WebsiteHandler {
 				break;
 			}
 		}
+		*/
 		
 		result = result.substring(0, cutIndex);
+		
 		return result;
 	}
 	

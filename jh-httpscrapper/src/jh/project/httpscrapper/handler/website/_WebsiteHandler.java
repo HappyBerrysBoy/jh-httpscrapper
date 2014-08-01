@@ -110,6 +110,7 @@ public class _WebsiteHandler {
 	*/
 	public String getTag(String html, String tag){
 		String result = "";
+		tag = tag.toUpperCase();
 		Pattern pat = Pattern.compile("(<(?i)" + tag + ")+[>| ][\\s\\S]*(<(?i)\\/" + tag + ">)+");
 		Matcher mat = pat.matcher(html);
 		
@@ -125,13 +126,13 @@ public class _WebsiteHandler {
 		
 		for (int i = 2; i < result.length() - tag.length() - 3; i++){
 			
-			if (result.substring(i, i + tag.length() + 1).equals("<" + tag) && 
+			if (result.substring(i, i + tag.length() + 1).toUpperCase().equals("<" + tag) && 
 					(result.substring(i + tag.length() + 1, i + tag.length() + 2).equals(" ") || result.substring(i + tag.length() + 1, i + tag.length() + 2).equals(">"))){
 				beginTagCount++;
 				continue;
 			}	
 			
-			if (result.substring(i, i + tag.length() + 3).equals("</" + tag + ">")){
+			if (result.substring(i, i + tag.length() + 3).toUpperCase().equals("</" + tag + ">")){
 				endTagCount ++;
 				
 				if (endTagCount > beginTagCount){

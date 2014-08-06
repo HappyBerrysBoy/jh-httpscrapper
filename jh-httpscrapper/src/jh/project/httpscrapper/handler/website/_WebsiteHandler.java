@@ -241,6 +241,20 @@ public class _WebsiteHandler {
 		
 	
 	/**
+	* 특정 class 가 포함된 Tag의 값(value)을 제거한다.
+	* @param html html 코드
+	* @param className 제거 하고자 하는  class 명
+	* @return 특정 class 가 포함된 Tag가 제거된 html 코드
+	*/
+	public String removeValueByClass(String html, String className){
+		String result = "";
+		
+		result = html.replace(this.getValueByClass(html, className).trim(), "");
+		return result;
+	}
+	
+	
+	/**
 	* 모든 html 태그를 제거 한다.
 	* @param html html 코드
 	* @return 태그가 모두 제거된 html

@@ -89,7 +89,18 @@ public class Html{
 		
 		return new Html(wh.getValueByClass(this.html, className));
 	}
+	
+	/**
+	* 특정 class 가 포함된 Tag의 값(value)을 제거한다.
+	* @param className 제거 하고자 하는  class 명
+	* @return 특정 class 가 포함된 Tag가 제거된 html 코드
+	*/
+	public Html removeValueByClass(String className){
+		_WebsiteHandler wh = new _WebsiteHandler();
 		
+		return new Html(wh.removeValueByClass(this.html, className));
+	}
+	
 	
 	/**
 	* 모든 html 태그를 제거 한다.

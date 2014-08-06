@@ -234,6 +234,8 @@ public class _WebsiteHandler {
 //			pat = Pattern.compile("<[^<]+>");
 //			mat = pat.matcher(result);
 //			result = mat.replaceFirst("");
+		}else{
+			return "";
 		}
 		
 		return result.trim();
@@ -319,5 +321,20 @@ public class _WebsiteHandler {
 		}
 		
 		return keyList;
+	}
+	
+	
+	/**
+	* 문자열내부에서 숫자값만 추출한다.
+	* @param html 문자열
+	* @return result 추출된 숫자 값
+	*/
+	public String getOnlyNumber(String html){
+		String result = html;
+		Pattern tag = Pattern.compile("[^0-9]+");
+		Matcher mat = tag.matcher(result);
+		result = mat.replaceAll("");
+		
+		return result;
 	}
 }

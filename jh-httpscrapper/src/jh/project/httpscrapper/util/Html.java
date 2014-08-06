@@ -132,4 +132,13 @@ public class Html{
 	    return new Html(wh.convertSpecialChar(this.html));
 	}
 
+	/**
+	* 문자열 내부에서 숫자만 추출한다.
+	* @param sentence 문자열
+	* @return 숫자값만 추출해서 return
+	*/
+	public Html getOnlyNumber(){
+		_WebsiteHandler wh = new _WebsiteHandler();
+		return new Html(wh.getOnlyNumber(this.html));
+	}
 }

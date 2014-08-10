@@ -24,15 +24,22 @@ public class Website {
 	private String handlerClassName;
 	private String resultClassName;
 	
-	
-	
-	
-	
-	public Website() {
+	private void constructor(){
 		this.param = new HashMap<String, String>();
 		this.handler = new _WebsiteHandler();
 		this.handlerClassName = "hnc.tourtobee.scrapper.handler.website._WebsiteHandler";
 		this.resultClassName = "hnc.tourtobee.scrapper.dataobject._DataObject";
+	}
+	
+	public Website() {
+		constructor();
+	}
+	
+	public Website(String url, String method, String encoding){
+		constructor();
+		this.url = url;
+		this.method = method;
+		this.encoding = encoding;
 	}
 
 	/**

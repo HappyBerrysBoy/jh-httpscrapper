@@ -240,6 +240,52 @@ public class _WebsiteHandler {
 		
 		return result.trim();
 	}
+	
+	/**
+	* 특정 id 가 포함된 Tag의 값(value)을 가져온다.
+	* @param html html 코드
+	* @param idName 검색 하고자 하는  id 명
+	* @return 특정 id 가 포함된 Tag의 값(value)
+	*/
+	public String getValueById(String html, String idName){
+		String result = html;
+		Pattern pat = Pattern.compile("[<][^>]+((?i)id)+[ =\"']+((?i)" + idName + ")+['\"]+[\\s\\S]*<\\/[\\s\\S]*>");
+		Matcher mat = pat.matcher(html);
+		
+		if (mat.find()){
+			result = html.substring(mat.start(), mat.end());
+			String tag = result.split(" ")[0].substring(1);
+			result = this.getTag(result, tag);
+		}else{
+			return "";
+		}
+		
+		return result.trim();
+	}
+	
+	
+	/**
+	* 특정 attribute의 특정 값이 포함된 Tag의 값(value)을 가져온다.
+	* @param html html 코드
+	* @param attr 검색 하고자 하는  attribute 명
+	* @param value 검색 하고자 하는 attribute의 value
+	* @return 특정 class 가 포함된 Tag의 값(value)
+	*/
+	public String getValueByAttr(String html, String attr, String value){
+		String result = html;
+		Pattern pat = Pattern.compile("[<][^>]+((?i)" + attr + ")+[ =\"']+((?i)" + value + ")+['\"]+[\\s\\S]*<\\/[\\s\\S]*>");
+		Matcher mat = pat.matcher(html);
+		
+		if (mat.find()){
+			result = html.substring(mat.start(), mat.end());
+			String tag = result.split(" ")[0].substring(1);
+			result = this.getTag(result, tag);
+		}else{
+			return "";
+		}
+		
+		return result.trim();
+	}
 		
 	
 	/**

@@ -91,6 +91,29 @@ public class Html{
 	}
 	
 	/**
+	* 특정 class 가 포함된 Tag의 값(value)을 가져온다.
+	* @param idName 검색 하고자 하는  id 명
+	* @return 특정 id 가 포함된 Tag의 값(value)
+	*/
+	public Html getValueById(String idName){
+		_WebsiteHandler wh = new _WebsiteHandler();
+		
+		return new Html(wh.getValueById(this.html, idName));
+	}
+	
+	/**
+	* 특정 attribute에 특정 value가 포함된 Tag의 값(value)을 가져온다.
+	* @param attr 검색 하고자 하는  attribute 명
+	* @param value 검색 하고자 하는  attribute의 value
+	* @return 특정 class 가 포함된 Tag의 값(value)
+	*/
+	public Html getValueByAttr(String attr, String value){
+		_WebsiteHandler wh = new _WebsiteHandler();
+		
+		return new Html(wh.getValueByAttr(this.html, attr, value));
+	}
+	
+	/**
 	* 특정 class 가 포함된 Tag의 값(value)을 제거한다.
 	* @param className 제거 하고자 하는  class 명
 	* @return 특정 class 가 포함된 Tag가 제거된 html 코드

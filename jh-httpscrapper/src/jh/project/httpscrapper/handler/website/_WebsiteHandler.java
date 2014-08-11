@@ -301,6 +301,32 @@ public class _WebsiteHandler {
 		return result;
 	}
 	
+	/**
+	* 특정 id 가 포함된 Tag의 값(value)을 제거한다.
+	* @param html html 코드
+	* @param idName 제거 하고자 하는  id 명
+	* @return 특정 id 가 포함된 Tag가 제거된 html 코드
+	*/
+	public String removeValueById(String html, String idName){
+		String result = "";
+		
+		result = html.replace(this.getValueById(html, idName).trim(), "");
+		return result;
+	}
+	
+	/**
+	* 특정 attribute에 특정 value 가 포함된 Tag의 값(value)을 제거한다.
+	* @param html html 코드
+	* @param attr 제거 하고자 하는  attr 명
+	* @param value 제거하고자 하는 attr의 값
+	* @return 특정 class 가 포함된 Tag가 제거된 html 코드
+	*/
+	public String removeValueByAttr(String html, String attr, String value){
+		String result = "";
+		
+		result = html.replace(this.getValueByAttr(html, attr, value).trim(), "");
+		return result;
+	}
 	
 	/**
 	* 모든 html 태그를 제거 한다.
@@ -382,5 +408,26 @@ public class _WebsiteHandler {
 		result = mat.replaceAll("");
 		
 		return result;
+	}
+	
+	
+	/**
+	* 문자열내부에서 특정 attribute의 value 값을 추출한다.
+	* @param html 문자열
+	* @param attr 추출할 attr 명
+	* @return result 추출된 값
+	*/
+	public String getAttrValue(String html, String attr){
+		String subStr = "";
+		
+		Pattern pattern = Pattern.compile(attr + "=[\'\"]+[^\'\"]+");
+		Matcher mat = pattern.matcher(html);
+		
+		if (mat.find()) {
+			subStr = html.substring(mat.start(), mat.end());
+			subStr = subStr.replace(attr+"=\'", "").replace(attr+"=\"", "");
+		}
+		
+		return subStr;
 	}
 }

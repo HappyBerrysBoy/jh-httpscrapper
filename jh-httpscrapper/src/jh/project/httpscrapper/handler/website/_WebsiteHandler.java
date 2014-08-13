@@ -430,4 +430,15 @@ public class _WebsiteHandler {
 		
 		return subStr;
 	}
+	
+	/**
+	* 문자열내부에서 특정 값을 주어진 값으로 replace한다.
+	* @param html 문자열
+	* @param str 변경될 문자열
+	* @param replace 대체될 문자열
+	* @return result 대체된 문자
+	*/
+	public String replace(String html, String str, String replace){
+		return html.replace(str, replace);
+	}
 }

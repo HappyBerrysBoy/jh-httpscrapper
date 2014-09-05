@@ -124,6 +124,7 @@ public class Html{
 		return new Html(wh.removeValueByClass(this.html, className));
 	}
 	
+	
 	/**
 	* �뱀젙 id 媛��ы븿��Tag��媛�value)���쒓굅�쒕떎.
 	* @param idName �쒓굅 �섍퀬���섎뒗  id 紐�

@@ -1,5 +1,9 @@
 package jh.project.httpscrapper.handler.website;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +33,18 @@ public class _WebsiteHandler {
 	* @return html 코드
 	*/
 	protected String getHtml(CloseableHttpClient httpclient, Website website){
+		return getHtml(httpclient, website, true);
+	}
+	
+	/**
+	* httpclient와 website 정보를 가지고 해당 url 의 html 코드를 반환한다.
+	* @param httpclient http connection을 책임 질 httpclient
+	* @param website 접속할 website 정보, url, parameter, encoding type...
+	* @return html 코드
+	*/
+	protected String getHtml(CloseableHttpClient httpclient, Website website, boolean doEncoding){
 		String html = "";
 		try{
-			HttpRequestBase terminalHttp = null;
 			
 			if (website.getMethod().equals("GET")){
 				String newUrl = website.getUrl();
@@ -41,8 +54,38 @@ public class _WebsiteHandler {
 					newUrl += parameter + "=" + website.getParam().get(parameter);
 				}
 				website.setUrl(newUrl);
-				terminalHttp = new HttpGet(website.getUrl());
+				
+				URL obj = new URL(newUrl);
+				HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+				con.setRequestMethod("GET");
+				con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.103 Safari/537.36");
+				InputStreamReader isr;
+				
+				if(doEncoding)
+					isr = new InputStreamReader(con.getInputStream(), website.getEncoding());
+				else
+					isr = new InputStreamReader(con.getInputStream());
+				BufferedReader in = new BufferedReader(isr);
+				String inputLine;
+				StringBuffer response = new StringBuffer();
+		 
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+		 
+				html = response.toString();
+//				HttpRequestBase terminalHttp = null;
+//				terminalHttp = new HttpGet(website.getUrl());
+//				CloseableHttpResponse response2 = httpclient.execute(terminalHttp);
+//			    HttpEntity entity = response2.getEntity();
+//			    
+//			    html = EntityUtils.toString(entity, website.getEncoding());
+//			    
+//			    EntityUtils.consume(entity);
+			    
 			}else if (website.getMethod().equals("POST")){
+				HttpRequestBase terminalHttp = null;
 				terminalHttp = new HttpPost(website.getUrl());
 				List <NameValuePair> nvps = new ArrayList <NameValuePair>();
 				ArrayList<String> parameters = getKeyList(website.getParam());
@@ -50,14 +93,13 @@ public class _WebsiteHandler {
 					nvps.add(new BasicNameValuePair(parameter, website.getParam().get(parameter)));
 				}
 				((HttpPost) terminalHttp).setEntity(new UrlEncodedFormEntity(nvps));
+				CloseableHttpResponse response = httpclient.execute(terminalHttp);
+			    HttpEntity entity = response.getEntity();
+			    
+			    html = EntityUtils.toString(entity, website.getEncoding());
+			    
+			    EntityUtils.consume(entity);
 			}
-			
-		    CloseableHttpResponse response = httpclient.execute(terminalHttp);
-		    HttpEntity entity = response.getEntity();
-		    
-		    html = EntityUtils.toString(entity, website.getEncoding());
-		    
-		    EntityUtils.consume(entity);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -251,7 +293,7 @@ public class _WebsiteHandler {
 		String result = html;
 		Pattern pat = Pattern.compile("[<][^>]+((?i)id)+[ =\"']+((?i)" + idName + ")+['\"]+[\\s\\S]*<\\/[\\s\\S]*>");
 		Matcher mat = pat.matcher(html);
-		
+
 		if (mat.find()){
 			result = html.substring(mat.start(), mat.end());
 			String tag = result.split(" ")[0].substring(1);

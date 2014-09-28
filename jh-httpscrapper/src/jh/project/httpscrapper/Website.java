@@ -19,6 +19,7 @@ public class Website {
 	private String url;
 	private String method;
 	private HashMap<String, String> param;
+	private HashMap<String, String> header;
 	
 	private _WebsiteHandler handler;
 	private String handlerClassName;
@@ -26,6 +27,7 @@ public class Website {
 	
 	private void constructor(){
 		this.param = new HashMap<String, String>();
+		this.header = new HashMap<String, String>();
 		this.handler = new _WebsiteHandler();
 		this.handlerClassName = "hnc.tourtobee.scrapper.handler.website._WebsiteHandler";
 		this.resultClassName = "hnc.tourtobee.scrapper.dataobject._DataObject";
@@ -120,6 +122,22 @@ public class Website {
 	*/
 	public void setParam(HashMap<String, String> param) {
 		this.param = param;
+	}
+	
+	/**
+	* web site로 전송할 Header를 반환한다.
+	* @return web site로 전송할 Header
+	*/
+	public HashMap<String, String> getHeader() {
+		return header;
+	}
+	
+	/**
+	* web site로 전송할 Header를 설정한다.
+	* @param param web site로 전송할 Header
+	*/
+	public void setHeader(HashMap<String, String> header) {
+		this.header = header;
 	}
 	
 	/**

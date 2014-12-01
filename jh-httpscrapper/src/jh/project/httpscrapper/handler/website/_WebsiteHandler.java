@@ -62,7 +62,6 @@ public class _WebsiteHandler {
 				website.setUrl(newUrl + "?" + params);
 			else
 				website.setUrl(newUrl);
-				
 			
 			URL url = new URL(newUrl);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -70,28 +69,13 @@ public class _WebsiteHandler {
 			
 			if (website.getMethod().equals("GET")){
 				con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.103 Safari/537.36");
-//				InputStreamReader isr;
-//				
-//				if(doEncoding)
-//					isr = new InputStreamReader(con.getInputStream(), website.getEncoding());
-//				else
-//					isr = new InputStreamReader(con.getInputStream());
-//				BufferedReader in = new BufferedReader(isr);
-//				String inputLine;
-//				StringBuffer response = new StringBuffer();
-//		 
-//				while ((inputLine = in.readLine()) != null) {
-//					response.append(inputLine);
-//				}
-//				in.close();
-//		 
-//				html = response.toString();
 			}else if (website.getMethod().equals("POST")){
-				// coupang의 경우 bundleId, linkCode, startIndex 값은 0으로 세팅해주면 되고.. productIds 값은 전부다.. 보내줘야 한다.
 				con.setDoInput(true);
 				con.setDoOutput(true);
 				// Header Values..
-				con.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
+				for(String key : website.getHeader().keySet()){
+					con.setRequestProperty(key, website.getHeader().get(key));
+				}
 				
 				OutputStream os = con.getOutputStream();
 				// 그리고 write메소드로 메시지로 작성된 파라미터정보를 바이트단위로 "EUC-KR"로 인코딩해서 요청한다.
@@ -99,45 +83,6 @@ public class _WebsiteHandler {
 				os.write( params.getBytes());
 			    os.flush();
 			    os.close();
-			    
-//			    String inputLine = null;
-//			    StringBuffer response = new StringBuffer();
-//			    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), website.getEncoding()));
-//			    while((inputLine = in.readLine()) != null){
-//			    	response.append(inputLine);
-//			    }
-//			    in.close();
-//			    
-//			    html = response.toString();
-			    
-			    
-			    // 됐던거..
-			 // coupang의 경우 bundleId, linkCode, startIndex 값은 0으로 세팅해주면 되고.. productIds 값은 전부다.. 보내줘야 한다.
-//				params = "bundleId=0&linkCode=0&productIds=70785481, 68892536, 67157224, 70008699, 70297118, 70038017, 70710261, 70705308, 70700965, 70785563, 70785910, 70681697, 69753156, 70785779, 70760088, 69850125, 69922803, 70817803, 70709679, 70709788, 70846857, 69827442, 70785877, 70585687, 70249478, 70689503, 69766528, 69286862, 70842941, 70785701, 70586001, 70544118, 70333149, 70276840, 69790017, 69877162, 69427711, 70759603, 68426784, 70774604, 69826281, 69532105, 70252047, 67066877, 69608065, 69336862, 66498510, 70260571, 70329587, 70340790, 68497112, 70785198, 70597157, 69845372, 66476792, 70663523, 66500357, 70665331, 70668089, 70701966, 70358169, 70325918, 70599927, 70614610, 70579025, 70583472, 70624378, 70299358, 70345980, 70493530, 70517215, 70517517, 70329389, 70331477, 70280756, 70036785, 70037735, 69922059, 69960496, 69997487, 69997638, 69381108, 69615848, 69819930, 69823508, 69824937, 69917012, 69736312, 69731650, 69755000, 69614965, 69513997, 69500244, 69500058, 69462233, 69059332, 69012842, 69012720, 69073938, 68994092, 68853229, 68430689, 70346660, 70261351, 69825339, 69738739, 68928385, 68628126, 67065890, 66999561, 66788005, 66823989, 66834207, 66682312, 66813897, 70760201, 70688283, 70584067, 69884814, 70351262, 70495732, 70337761, 69264739, 70785595, 68827867, 70762130, 70682075, 69872013, 69589108, 70483070, 70038858, 70245735, 70006059, 69736578, 69764138, 69444756, 68923295, 68504561, 69914317, 70483954, 70769617, 70337855, 69359873, 69277659, 70688568, 70483481, 66847783, 70665816, 70517750, 69999681, 70771238, 70760694, 70585616, 70523101, 69911827, 69607518, 69381510, 69077338, 70584269, 70247097, 70256711, 70699686, 70499380, 70038748, 70330680, 70702163, 70758751, 70351826, 70688478, 70779339, 66837868, 70595792, 69023196, 69358024, 69914548, 70263862, 70005800, 70681022, 70597722, 69883911&startIndex=0";
-//				URL url  = new URL("http://www.coupang.com/np/moreProducts");
-//				HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//				con.setRequestMethod("POST");
-//				con.setDoInput(true);
-//				con.setDoOutput(true);
-//				// Header Values..
-//				con.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
-//				
-//				OutputStream os = con.getOutputStream();
-//				// 그리고 write메소드로 메시지로 작성된 파라미터정보를 바이트단위로 "EUC-KR"로 인코딩해서 요청한다.
-//				// 여기서 중요한 점은 "UTF-8"로 해도 되는데 한글일 경우는 "EUC-KR"로 인코딩해야만 한글이 제대로 전달된다.
-//				os.write( params.getBytes());
-//			    os.flush();
-//			    os.close();
-//			    
-//			    String buffer = null;
-//			    String result = "";
-//			    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-//			    while((buffer = in.readLine()) != null){
-//			    	result += buffer;
-//			    }
-//			    in.close();
-//			    
-//			    html = result;
 			}
 			
 			InputStreamReader isr;
@@ -156,7 +101,6 @@ public class _WebsiteHandler {
 			in.close();
 	 
 			html = response.toString();
-			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
